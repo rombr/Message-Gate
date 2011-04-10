@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}web-интерфейс оператора{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+        <link type="text/css" rel="stylesheet" href="/stylesheets/smoothness/jquery-ui.custom.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/jquery.jgrowl.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/operator.css" />
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+        <script type="text/javascript" src="/js/jquery-ui.js">
+        </script>
+        <script type="text/javascript" src="/js/jquery.scrollTo-min.js">
+        </script>
+        <script type="text/javascript" src="/js/jquery.jgrowl_compressed.js">
+        </script>
+        <script type="text/javascript" src="/js/jquery.ui.msgbox.js">
+        </script>
+        <script type="text/javascript">
+            <!--
+			var get_timeout = {{get_timeout}};
+			var get_interval_error = {{get_interval_error}};
+			var get_interval_normal = {{get_interval_normal}};
+			var action_adr = '{{action_adr}}';			
+        //-->                                        
+        </script>
+		<script type="text/javascript" src='/js/chat.js'></script>
+{% endblock %}
+
+{% block content %}
+        <div id="sections">
+            <div id="accordion">
+                <h3><a href="#">Оператор: {{opName}}</a></h3>
+                <div id="tabs">
+                    <ul>
+                        <li>
+                            <a href="#tabs-1">Информация</a>
+                        </li>
+                        <li>
+                            <a href="#tabs-2">Настройки</a>
+                        </li>
+                    </ul>
+                    <div id="tabs-1">
+                        <h3>Оператор: {{opName}}</h3>
+                        <div id="t_a">
+                        </div>
+                        <div id="t_operator">
+                        </div>
+                        <pre id="body"></pre>
+                    </div>
+                    <div id="tabs-2">
+                        <p>
+                            Morbi tincidunt, dui sit amet facilisis feugiat, odio metus
+                            gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie
+                            turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie
+                            lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem.
+                            Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros
+                            vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare
+                            consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat
+                            volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque
+                            pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel
+                            felis. Mauris consectetur tortor et purus.
+                        </p>
+                    </div>
+                </div>
+                <h3><a href="#">Сообщения</a></h3>
+                <div id="messages">
+                    <div class="msgbox">
+                        <div class="msgbox-header">
+                            <!--Second content 1-->
+                        </div>
+                        <div class="msgbox-content">
+                            <div class="msgbox-message">
+                            </div>
+                            <div class="msgbox-form">
+                                <form id="send" action="/" method="post">
+                                    <div>
+                                        <textarea id="msg2send" name="msg2send" class="msg2send" rows="3" cols="25"></textarea>
+                                    </div>
+                                    <div>
+                                        <input id='nickname' type='hidden' value='{{opName}}'/>
+                                        <input id="btnSend" class="btnSend" type="submit" value="Отправить" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+{% endblock %}
