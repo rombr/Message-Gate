@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""Обработка входящих сообщений
-"""
+'''Обработка входящих сообщений
+'''
 
 from xmpps.msg_consts import *
 from params import *
@@ -18,9 +18,9 @@ from google.appengine.api import xmpp
 from google.appengine.api import memcache
 
 def getServicesList(ret):
-    """Получает список доступных служб и
+    '''Получает список доступных служб и
     выводит в сообщение
-    """ 
+    ''' 
     results = appService.all().order('sname')#.filter('active !=', False)
     i = 0
     for result in results:
@@ -29,8 +29,8 @@ def getServicesList(ret):
             ret.write("%s) %s\n" % (i, result.sname))
 
 def initTalk(n=0, message=None):
-    """Инициализирует сессию между пользователем и оператором
-    """
+    '''Инициализирует сессию между пользователем и оператором
+    '''
     # выбор службы с номером n
     results = appService.all().order('sname').fetch(100)
     srv = ''
@@ -72,8 +72,8 @@ def initTalk(n=0, message=None):
     
 
 def isOperator(message=None):
-    """является ли оператором
-    """
+    '''является ли оператором
+    '''
     results = appOperators.all().filter('active =', True).filter('isweb =', False).fetch(1000)
     if len(results) == 0:
         logging.debug('no Jabber operators free')
@@ -83,8 +83,8 @@ def isOperator(message=None):
     return False
 
 def processUserMsg(message=None, answer=None):
-    """Обработка сообщения от пользователя
-    """
+    '''Обработка сообщения от пользователя
+    '''
     userinfo = memcache.get(message.sender)
     if  userinfo.get('operator') == None:
         logging.debug(u'что-то не так в processUserMsg(user info)')
@@ -120,15 +120,14 @@ def processUserMsg(message=None, answer=None):
             memcache.set(message.sender, userinfo, TALK_TIMEOUT)
                 
 def processOperatorMsg(message=None, answer=None):
-    """Обработка сообщения от оператора
-    """
+    '''Обработка сообщения от оператора
+    '''
     result = appOperators.all().filter('active =', True).filter('isweb =', False).filter('jid =', message.sender.split('/')[0]).get()
     opinfo = memcache.get(result.login)
     # проверка связи с пользователем
     if opinfo is None or opinfo.get('users') == None or opinfo.get('web') == None:
         logging.debug(u'что-то не так в processOperatorMsg(operator info)')
         answer.write(u'\nВ данный момент вы ни с кем не переписываетесь!')
-        raise Exception()
     else:
         # пишем сообщение в хранилище
         m = appOperatorsMsg(
@@ -145,15 +144,14 @@ def processOperatorMsg(message=None, answer=None):
         memcache.set(result.login, opinfo, TALK_TIMEOUT)
         userinfo = memcache.get(m.to)
         if userinfo is None:
-            answer.write(u'\nНеожиданное отсутствие связи с пользователем(processOperatorMsg)')
-            raise Exception()
+            answer.write(u'\nНеожиданное отсутствие связи с пользователем(processOperatorMsg)')            
         else:
             memcache.set(m.to, userinfo, TALK_TIMEOUT)              
                                   
 
 def MainHandler(app, message=None):
-    """Логика формирования ответного сообщения
-    """
+    '''Логика формирования ответного сообщения
+    '''
     answer = StringIO()
     #answer.write(u'Время: ' + datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S"))
     #answer.write(u'\nВы ввели текст: '+ message.body + u'\nВаш адрес: ')
@@ -191,8 +189,7 @@ def MainHandler(app, message=None):
             # оператор
             answer.write(u'Вы оператор!')
             processOperatorMsg(message, answer)
-    except Exception:
+    except ValueError:
         # ошибка
-        logging.debug('inmessage exception(MainHandler)')
+        logging.debug('ValueError inmessage exception(MainHandler)')
         #message.reply(answer.getvalue())
-        raise

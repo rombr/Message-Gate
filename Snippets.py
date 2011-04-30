@@ -1,7 +1,8 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Просто кусочки кода. 
-"""
+'''Просто кусочки кода. 
+'''
 
 # Our function to get the MD5 hash of a string
 def getMD5Hash(textToHash=None):
@@ -77,3 +78,54 @@ print so
 
 result = re.match(pat, str)
 
+#Декораторы классов
+def add_method2(cls):
+    def method2(self):
+        print 'method 2'
+        print self.var
+    cls.method2 = method2
+    return cls
+
+@add_method2
+class Test(object):
+    def __init__(self):
+        self.var = 'instance var'
+
+    def method1(self):
+        print 'method 1'
+
+#>>> obj = Test()
+#>>> obj.method1()
+#>>> obj.method2()
+
+
+#Декоратор функции
+def decorator(f):
+    def func(*args, **kargs):
+        print 'executing %s...' % f.__name__
+        return f(*args, **kargs)
+    return func
+
+
+def repr2string(repr=None):
+    '''Перевод строки из внутреннего
+    формата в нормальный, например:
+    
+    '''
+    if repr[:3] !== "u'\\" and repr[:3] !== "'\\x": return repr 
+    try:
+        return ''.join([chr(int(i,16)) for i in repr.strip('\\x\'').split('\\x')])
+    except:
+        return ''.join([unichr(int(i,16)) for i in repr.strip('\\u\'').split('\\u')])
+    
+    
+>>> "hello".encode("hex")
+'68656c6c6f'
+>>> "68656c6c6f".decode("hex")
+'hello'
+>>>
+
+
+
+    
+    

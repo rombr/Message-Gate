@@ -8,23 +8,22 @@ Created on 14.01.2010
 Обработчики AJAX команд
 '''
 
-import logging, datetime, time
-from time import sleep
-
-from google.appengine.api import xmpp 
-from google.appengine.api import memcache
-
-from django.utils import simplejson
-
-from util import CheckMessageText
-from params import *
 from data_models import *
+from django.utils import simplejson
+from google.appengine.api import memcache, xmpp
+from params import *
+from time import sleep
+from util import CheckMessageText
 from webpart.exceptions import *
+import logging
+import datetime
+import time
 
-#@todo: release
+
 def test(self=None, operator=None):
-    """Тестовая команда
-    """
+    '''Тестовая команда
+    @todo: release
+    '''
     self.response.headers['Content-Type'] = 'text/javascript; charset=utf-8'
     str = simplejson.dumps(
            {
@@ -36,16 +35,16 @@ def test(self=None, operator=None):
     self.response.out.write(str) 
 
 
-#@todo: release
 def prefs(self=None, operator=None):
-    """Сохраняет настройки
-    """
+    '''Сохраняет настройки
+    @todo: release
+    '''
     pass
 
 
 def send(self=None, operator=None):
-    """сохраняет и пересылает сообщение
-    """
+    '''сохраняет и пересылает сообщение
+    '''
     try:
         result = appOperators.all().filter('active =', True).filter('isweb =', True).filter('login =', operator).get()
         opinfo = memcache.get(result.login)
@@ -80,8 +79,8 @@ def send(self=None, operator=None):
                            
 
 def getmsgs(self=None, operator=None, timestamp=0):
-    """Отдает новые сообщения
-    """
+    '''Отдает новые сообщения
+    '''
     self.response.headers['Content-Type'] = 'text/javascript; charset=utf-8'
     res = {}
     try:

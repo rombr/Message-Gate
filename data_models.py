@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""Модели данных
-"""
+'''Модели данных
+'''
 
 from google.appengine.ext import db
 

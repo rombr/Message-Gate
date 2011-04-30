@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
-"""Параметры приложения
-"""
+'''Параметры приложения
+'''
+import os
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+
+TEMPLATE_DIR = os.path.join(PROJECT_PATH, 'templates')
 
 CHOOSE_TIMEOUT = 60
 TALK_TIMEOUT = 180

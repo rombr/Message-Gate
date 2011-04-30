@@ -1,21 +1,18 @@
 {% extends "base.html" %}
-
 {% block title %}Гостевая книга!{% endblock %}
 
-{% block content %}
-    {% for greeting in greetings %}
-      {% if greeting.author %}
-        <b>{{ greeting.author.nickname }}</b> wrote:
-      {% else %}
-       An anonymous person wrote:
-      {% endif %}
-      <blockquote>{{ greeting.content|escape }}</blockquote>
-    {% endfor %}
+{% block content %} 
+{% for greeting in greetings %} 
+{% if greeting.author %}
+	<b>{{ greeting.author.nickname }}</b>
+	wrote: {% else %} An anonymous person wrote: {% endif %}
+	<blockquote>{{ greeting.content|escape }}</blockquote>
+{% endfor %}
 
-    <form action="/sign" method="post">
-      <div><textarea name="content" rows="3" cols="60"></textarea></div>
-      <div><input type="submit" value="Sign Guestbook"></div>
-    </form>
+<form action="/sign" method="post">
+<div><textarea name="content" rows="3" cols="60"></textarea></div>
+<div><input type="submit" value="Sign Guestbook"></div>
+</form>
 
-    <a href="{{ url }}">{{ url_linktext }}</a>
+<a href="{{ url }}">{{ url_linktext }}</a>
 {% endblock %}

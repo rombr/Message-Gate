@@ -1,24 +1,21 @@
 # -*- coding: utf-8 -*-
 
-"""определяет web-интерфейс
-"""
-from google.appengine.dist import use_library
-#use_library('django', '1.2')
+'''определяет web-интерфейс
+'''
 
-import cgi, os, re 
+from google.appengine.api import users
+from google.appengine.ext import db, webapp
+from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.runtime import DeadlineExceededError
+from params import *
+from webpart import ajax
+from util import RenderPage, IsOperator
+import cgi
+import os
+import re
 import logging
 
-from google.appengine.ext.webapp import template
-from google.appengine.api import users 
-from google.appengine.ext import webapp 
-from google.appengine.ext.webapp.util import run_wsgi_app 
-from google.appengine.ext import db 
-
-from google.appengine.runtime import DeadlineExceededError 
-
-from params import *
-from webpart.util import RenderPage, IsOperator
-from webpart import  ajax
  
 class Greeting(db.Model): 
     author = db.UserProperty() 
@@ -58,8 +55,8 @@ class Guestbook(webapp.RequestHandler):
         self.redirect('/')     
         
 class MainPage(webapp.RequestHandler): 
-    """Обработчик главной страницы
-    """
+    '''Обработчик главной страницы
+    '''
     def get(self):    
         template_values = { 
           'app_id': os.environ['APPLICATION_ID'] ,
@@ -68,8 +65,8 @@ class MainPage(webapp.RequestHandler):
         
 
 class AjaxHandler(webapp.RequestHandler): 
-    """Обработчик запросов AJAX
-    """
+    '''Обработчик запросов AJAX
+    '''
     def post(self, operator, action): 
         #logging.debug(operator)  
         try: 
@@ -99,16 +96,16 @@ class AjaxHandler(webapp.RequestHandler):
 
         
 class RemoteInterface(webapp.RequestHandler):
-    """Внешний интерфейс оператора
-    """
-    #@todo: release
+    '''Внешний интерфейс оператора
+    @todo: release
+    '''
     def get(self, operator):
         RenderPage(self, 'operator_remote')
 
     
 class WebInterface(webapp.RequestHandler):
-    """Web интерфейс оператора
-    """
+    '''Web интерфейс оператора
+    '''
     def get(self, operator):
         #logging.debug(operator)   
         template_values = { 
@@ -126,8 +123,8 @@ class WebInterface(webapp.RequestHandler):
             
     
 class ErrorPage(webapp.RequestHandler): 
-    """Обработчик остальных запросов
-    """
+    '''Обработчик остальных запросов
+    '''
     def post(self, uri):
         '''POST запрос на неправильный адрес
         '''  
@@ -135,8 +132,8 @@ class ErrorPage(webapp.RequestHandler):
         self.response.out.write('O_o!')
       
     def get(self, uri):
-        """Если введено имя оператора, то редирект на его страницу
-        """
+        '''Если введено имя оператора, то редирект на его страницу
+        '''
         try: 
             result = re.match('([a-zA-Z_0-9]+)$', uri)
             str = result.groups(1)[0]

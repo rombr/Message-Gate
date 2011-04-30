@@ -1,18 +1,18 @@
 body {
-    font-family: Verdana, Helvetica, sans-serif;
-    font-size: 14px;
-    background-color: #daefd6;
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 14px;
+	background-color: #daefd6;
 }
 
 #header-page {
-    width: 100%;
-    height: 100px;
-    background-color: #4fa240;
-    border: groove;
+	width: 100%;
+	height: 100px;
+	background-color: #4fa240;
+	border: groove;
 }
 
 #header-text {
-    font-size: 50px;
-    padding-left: 45%;
-    color: gray;;
+	font-size: 50px;
+	padding-left: 45%;
+	color: gray;;
 }
